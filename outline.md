@@ -119,7 +119,8 @@
 ### 16　立即報名
 - 版型：Closing
 - 標題：年度限量 300 家
-- 核心訊息：掃碼報名 events.taiwantrade.com/115Dashboard，或用 Email／電話聯繫。
+- 核心訊息：掃碼直接填報名表單，或用活動頁面 events.taiwantrade.com/115Dashboard、Email／電話聯繫。
+- 報名 QR 用 `.qr.qr-lg` 放大 1.5 倍（clamp 150–215px → 225–322px），現場後排才掃得到。放大後印章的右偏移要跟著加大（`.seal-pin--qr` 由 -5.3rem 改為 -6.6rem），否則靜止狀態會壓到 QR 外框。
 
 ---
 

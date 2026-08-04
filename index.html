@@ -405,7 +405,7 @@ ul.check span{font-size:clamp(.86rem,1.08vw,.98rem);color:var(--text-secondary)}
 .seal.seal-pin--table{top:-3.6rem;right:-.6rem}
 /* 第 16 頁：貼在 QR 右上角外側。右偏移必須讓邊界盒與 QR 完全不重疊，
    壓到碼區會掃不出來（印章有 rotate，邊界盒比視覺範圍大） */
-.seal.seal-pin--qr{top:-1.6rem;right:-5.3rem}
+.seal.seal-pin--qr{top:-1.6rem;right:-6.6rem}
 .logo{max-width:min(300px,72%);height:auto;display:block}
 
 /* 談判對白 */
@@ -419,6 +419,8 @@ ul.check span{font-size:clamp(.86rem,1.08vw,.98rem);color:var(--text-secondary)}
 /* QR */
 .qr{border:1px solid var(--border);padding:.7rem;background:#fff;width:max-content}
 .qr img{display:block;width:clamp(150px,17vw,215px);height:auto}
+/* 末頁的報名 QR：現場要掃得到，放大 1.5 倍 */
+.qr.qr-lg img{width:clamp(225px,25.5vw,322px)}
 
 /* 進度條 */
 /* 分段進度條：三段對應三個段落，讓聽眾知道現在走到哪 */
@@ -1111,7 +1113,7 @@ body.nav-back .slide.enter .trobo{
         </div>
         <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;position:relative;width:max-content;margin:0 auto">
           <div class="seal seal-pin seal-pin--qr">額滿<br>即止</div>
-          <div class="qr"><img src="assets/qr-form.png" alt="企業進出口數據看板報名表單 QR Code"></div>
+          <div class="qr qr-lg"><img src="assets/qr-form.png" alt="企業進出口數據看板報名表單 QR Code"></div>
           <p class="cap" style="text-align:center">掃描直接填寫報名表單</p>
         </div>
       </div>
