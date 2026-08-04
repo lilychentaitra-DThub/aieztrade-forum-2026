@@ -204,6 +204,23 @@ h3{
   max-height:46vh;object-fit:contain;object-position:center;
 }
 .shot.h-sm img{max-height:34vh}
+/* 趨勢折線圖：原稿是 PowerPoint 原生圖表（示意圖），改用 SVG 重繪才不會糊 */
+svg.trend{display:block;width:100%;height:auto;max-height:40vh;font-family:var(--font-body)}
+svg.trend .grid line{stroke:var(--border);stroke-width:1}
+svg.trend text{font-size:13px;fill:var(--text-secondary)}
+svg.trend .ylab text{text-anchor:end}
+svg.trend .xlab text{text-anchor:middle}
+svg.trend .ln{fill:none;stroke-linecap:round;stroke-linejoin:round}
+svg.trend .ln.rise{stroke:var(--accent);stroke-width:3.2}
+svg.trend .ln.flat{stroke:#9AA6B8;stroke-width:2.4}
+svg.trend .dot.rise circle{fill:var(--accent)}
+svg.trend .dot.flat circle{fill:#9AA6B8}
+svg.trend .tag{text-anchor:end;font-weight:700;font-size:14px}
+svg.trend .tag.rise{fill:var(--accent)}
+svg.trend .tag.flat{fill:#7C889B}
+/* 並排的兩張截圖原始比例差很多，用固定框高把圖置中，兩側圖說才會對齊 */
+.shot.pair{height:32vh;display:flex;align-items:center;justify-content:center}
+.shot.pair img{height:100%;max-height:none;object-fit:contain}
 .shot.h-lg img{max-height:56vh}
 /* demo 影片沿用截圖的相框與高度上限。
    aspect-ratio 必須指定：否則 metadata 載入前 <video> 預設只有 150px 高，
@@ -523,8 +540,8 @@ body.nav-back .slide.enter .trobo{
 <div id="deck">
 
 <!-- ============ 01 封面 ============ -->
-<section class="slide" data-note="各位先進午安。接下來 20 分鐘，我想把貿協已經做好、各位今天回去就能用的兩樣東西交給大家：一個是 AiEZ TRADE 平台上的 EZ 助手，一個是我們數位科技中心新推出的企業進出口數據看板。
-〔可選銜接：如果前面場次談的方法論很到位，這裡可以順一句『前面談的是方法，我這邊講的是工具跟資料』；若場次有變動就直接跳過，簡報上沒有寫。〕">
+<section class="slide" data-note="各位先進午安。接下來 20 分鐘，我想把貿協已經做好、各位今天回去就能用的兩樣東西交給大家：一個是 AiEZ TRADE 這個平台，包含今天講題點名的 EZ 助手；一個是我們數位科技中心新推出的企業進出口數據看板。
+兩樣都是現成的，不用等、不用開發，今天聽完就能用。">
   <div class="sheet">
     <header class="sheet-head">
       <span><b>AiEZ TRADE</b>　貿易科技系列講座　AI 外銷實戰 2026</span>
@@ -532,8 +549,11 @@ body.nav-back .slide.enter .trobo{
     </header>
     <div class="slide-inner">
       <div class="cover-grid">
-        <div class="stack" style="gap:1.6rem">
+        <div class="stack" style="gap:1.25rem">
           <h1>和「<span class="key">EZ 助手</span>」對話<br>找到<span class="key">市場與商機</span></h1>
+          <p class="lead" style="max-width:none">
+            深度整合經貿數據與 <span class="hl">AI</span> 應用的拓銷服務解決方案
+          </p>
           <p class="lead" style="font-size:clamp(1.15rem,1.75vw,1.5rem);color:var(--text-primary)">
             同場加映｜<span class="hl serif">企業進出口數據看板</span>
           </p>
@@ -550,47 +570,12 @@ body.nav-back .slide.enter .trobo{
   </div>
 </section>
 
-<!-- ============ 02 接棒轉場 ============ -->
-<section class="slide" data-note="〔可選銜接，看前面場次實際講了什麼再臨場決定，簡報上沒有寫，講不講都不影響：『前面談的比較多是方法，我這邊要補的是方法要跑得動的前提。』〕
-方法再好，前提是餵進去的資料要是對的。而且不只要對，你還得敢拿它去跟客戶談判——網路上抓來的數字，客戶一句「你這哪來的」就結束了。這就是貿協在做的事：我們把官方的、可查證的貿易數據整理好，再用 AI 幫你挑出重點。">
-  <div class="sheet">
-    <header class="sheet-head">
-      <span><b>AiEZ TRADE</b>　引言</span>
-      <span>02 / 16</span>
-    </header>
-    <div class="slide-inner">
-      <p class="eyebrow">先問一件事</p>
-      <h2>AI 工具再厲害<br>還是要回答——<span class="hl">資料從哪裡來？</span></h2>
-      <div class="grid g3" style="margin-top:1.4vh">
-        <div class="field">
-          <span class="tag">問題 一</span>
-          <h3>AI 要有料才會準</h3>
-          <p>模型再強，餵進去的是網路雜訊，出來的就是雜訊。</p>
-        </div>
-        <div class="field">
-          <span class="tag">問題 二</span>
-          <h3>商情不能靠猜</h3>
-          <p>「感覺這個市場有機會」——有多少機會，沒人說得準。</p>
-        </div>
-        <div class="field">
-          <span class="tag">問題 三</span>
-          <h3>要敢拿去談判</h3>
-          <p>談價格時拿得出來的，必須是客戶也認的官方數字。</p>
-        </div>
-      </div>
-      <p class="lead" style="margin-top:1.2vh;max-width:none">
-        貿協的答案是 <span class="hl serif" style="font-size:1.2em">AiEZ TRADE</span>　—　資料我們準備好，重點 AI 幫你挑。
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 03 引擎 ============ -->
-<section class="slide" data-note="這套服務的核心其實就兩件事：一是把資料整理好，二是幫你挑重點。前半段，我們彙集聯合國 UN Comtrade 跟財政部關務署這些權威來源的貿易數據，把格式各異、零散龐雜的資料做結構化整理。後半段交給 AI，它會理解每一家企業不同的需求，主動幫你篩選、推播最合適的那一則情報。簡單說——資料我們準備好，重點 AI 幫你挑。">
+<!-- ============ 02 引擎 ============ -->
+<section class="slide" data-note="這套服務的核心其實就兩件事：一是把資料整理好，二是幫你挑重點。前半段，我們彙集聯合國 UN 跟財政部（MOF）這些權威來源的貿易數據，把格式各異、零散龐雜的資料做結構化整理。後半段交給 AI，它會理解每一家企業不同的需求，主動幫你篩選、推播最合適的那一則情報。簡單說——資料我們準備好，重點 AI 幫你挑。">
   <div class="sheet">
     <header class="sheet-head">
       <span><b>AiEZ TRADE</b>　平台架構</span>
-      <span>03 / 16</span>
+      <span>02 / 16</span>
     </header>
     <div class="slide-inner">
       <p class="eyebrow">運作方式</p>
@@ -600,8 +585,8 @@ body.nav-back .slide.enter .trobo{
           <div class="field">
             <span class="tag">上游　數據彙集與處理</span>
             <h3>把權威資料整理成可用的情報</h3>
-            <p>彙集 UN Comtrade、財政部關務署（MOF）等多方來源，
-               結構化整理不同格式的數據。</p>
+            <p>彙集 UN、財政部（MOF）等多方數據來源，
+               結構化整理不同來源的數據。</p>
           </div>
           <div class="field">
             <span class="tag">下游　AI 精選</span>
@@ -619,7 +604,7 @@ body.nav-back .slide.enter .trobo{
   </div>
 </section>
 
-<!-- ============ 04 個人化 ============ -->
+<!-- ============ 03 個人化 ============ -->
 <section class="slide" data-note="〔影片會在翻到這頁時自動播放，全長 70 秒。不必等它播完——邊播邊講，講完就翻頁；要暫停或拉進度可以直接用影片下方的控制列。〕
 說得再多，不如直接看它怎麼運作。右邊是 T-ROBO 的實際操作畫面。
 進到平台，你只要簡單回答幾個問題。這些題目是依據公司的背景資訊設計的，像是出口實績、稅籍登記、商工登記等等。你照著自己實際的業務情境作答，就等於把需求「注入」了 AI 模型。
@@ -627,7 +612,7 @@ body.nav-back .slide.enter .trobo{
   <div class="sheet">
     <header class="sheet-head">
       <span><b>AiEZ TRADE</b>　個人化設定</span>
-      <span>04 / 16</span>
+      <span>03 / 16</span>
     </header>
     <div class="slide-inner">
       <p class="eyebrow">第一步</p>
@@ -655,59 +640,97 @@ body.nav-back .slide.enter .trobo{
   </div>
 </section>
 
-<!-- ============ 05 ★ 主秀：一段對話 ============ -->
-<section class="slide" data-note="這就是今天的主題了——和 EZ 助手對話。設定完成之後，你不需要學任何操作，就像跟人講話一樣問它就好。假設我是做手工具的，我問它：我想找新市場，該從哪裡開始？它會一次回三件事給你。第一，你的產品目前在全球市場的定位跟競爭現況，直接生成報表，資料來源標得清清楚楚，是財政部關務署跟 UN Comtrade。第二，它會分析出具發展潛力的產品，推薦最值得開拓的目標國家、還有相關的展會活動。第三，買主雷達——你把公司的產品、強項、銷售市場輸入進去，AI 就會自動爬梳、篩選出最適合你的潛在合作對象。一句話：輸入產品，報表、展會、買主，一次幫你端出來。（現場可補一句：這三張都是平台實際畫面，不是示意圖。）">
+<!-- ============ 04 ★ 主秀：平台三大核心功能 ============ -->
+<section class="slide" data-note="設定完成之後，平台上有三個功能會直接為你運作——注意，這三個是平台原本就有的功能，不是問 EZ 助手問出來的，EZ 助手是另外一個服務，等一下再講。
+你要做的只有一件事：把你的產品講清楚。以我做手工具為例，HS 8205、主要外銷美國。剩下三件事平台自動產出。
+第一是「數據情報」，依你的出口實績直接生成專屬報表，資料來源標得清清楚楚，是財政部 MOF 跟 UN Comtrade。
+第二是「你的 Ai 產業幫手」，它會精準對齊 HS Code 跟行業慣用名稱——這點很重要，同一個產品業界怎麼叫、報關怎麼歸類常常對不起來，它幫你接起來，再指引關鍵的展會活動跟潛在買家。
+第三是「買主雷達」——你把公司的產品、強項、銷售市場輸入進去，AI 就會自動爬梳、篩選出最適合你的潛在合作對象。
+一句話：輸入產品，報表、展會、買主，一次幫你端出來。（現場可補一句：這三張都是平台實際畫面，不是示意圖。）">
   <div class="sheet">
     <header class="sheet-head">
-      <span><b>EZ 助手</b>　核心情境</span>
-      <span>05 / 16</span>
+      <span><b>AiEZ TRADE</b>　平台三大核心功能</span>
+      <span>04 / 16</span>
     </header>
     <div class="slide-inner" style="gap:1.9vh">
-      <p class="eyebrow">和 EZ 助手對話</p>
-      <h2 style="font-size:clamp(1.9rem,3.3vw,3rem)">一句話問下去，<span class="hl">三件事一起回來</span></h2>
-      <div class="ask">
-        <span class="who">申報事項</span>
-        <q>我做手工具，想找新市場，該從哪裡開始？</q>
-      </div>
+      <p class="eyebrow">使用情境 1</p>
+      <h2 style="font-size:clamp(1.9rem,3.3vw,3rem)">輸入產品，<span class="hl">報表、展會、買主一次端出</span></h2>
       <div class="outs">
         <div class="out">
-          <div class="oh"><span class="n">01</span><b>你的專屬報表</b></div>
-          <p>產品在全球市場的定位與競爭現況，出口重點市場一次列出。<br>資料來源｜財政部 MOF・UN Comtrade</p>
+          <div class="oh"><span class="n">01</span><b>數據情報</b></div>
+          <p>依你的出口實績生成專屬報表，產品在全球市場的定位與出口重點市場一次列出。<br>資料來源｜財政部 MOF・UN Comtrade</p>
           <div class="shot"><img src="assets/data-line.png" alt="數據情報：出口重點市場趨勢"></div>
         </div>
         <div class="out">
-          <div class="oh"><span class="n">02</span><b>潛力產品與展會</b></div>
-          <p>分析具發展潛力的產品，推薦值得開拓的目標國家與相關經貿展會。</p>
+          <div class="oh"><span class="n">02</span><b>你的 Ai 產業幫手</b></div>
+          <p>精準對齊 HS Code 與行業慣用名稱，指引關鍵展會活動與潛在買家。</p>
           <div class="shot"><img src="assets/ai-cards.png" alt="你的 Ai 產業幫手：情報卡片"></div>
         </div>
         <div class="out">
-          <div class="oh"><span class="n">03</span><b>潛在買主名單</b></div>
+          <div class="oh"><span class="n">03</span><b>買主雷達</b></div>
           <p>輸入產品、強項、銷售市場，AI 自動爬梳篩選出適合的合作對象。</p>
-          <div class="shot"><img src="assets/buyer-finder.png" alt="AiEZ TRADE Buyer Finder"></div>
+          <div class="shot"><img src="assets/buyer-finder.png" alt="AiEZ TRADE Buyer Finder 買主雷達"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 06 加值服務 ============ -->
-<section class="slide" data-note="做外銷不是找到買主就結束，後面還有金流、物流、認證一大串。平台上目前已經串接 207 家服務廠商、涵蓋 10 種主要需求、12 個服務類別，你可以照需求篩選。另外我們也跟 Google 展開深度合作，引進他們的跨境服務生態系，從帳戶建置、素材、媒體規劃到成效評估都有；電商這邊則整合了 Shopify 等平台。要提醒的是，平台推薦的服務資訊主要由 AI 彙整生成，實際合作前還是請各位自行核實資質。">
+<!-- ============ 05 ★ EZ 助手 ============ -->
+<section class="slide" data-note="剛剛那三項功能，各自都有固定的產出——報表、展會情報、買主名單，題目是設定好的。接下來這個不一樣：EZ 助手沒有題目限制，也就是今天講題點名的那位。
+它就是貿易版的 ChatGPT，只是專門懂貿易。跨境做久了一定會遇到卡關的問題：這個品項關稅多少？某某國家最近的商情怎麼樣？出口文件要準備什麼？以前你要打電話問報關行、問同業，或是自己上網翻半天。現在直接問它，24 小時都在，即時回覆。
+網址很好記：aieztrade.com/ez-assistant，各位現在就可以打開來試。
+提醒一下，AI 的回覆還是建議跟正式規定對照過再用，尤其是稅則跟法規這種會變動的東西。">
   <div class="sheet">
     <header class="sheet-head">
-      <span><b>AiEZ TRADE</b>　外銷加值服務</span>
+      <span><b>EZ 助手</b>　貿易版 ChatGPT</span>
+      <span>05 / 16</span>
+    </header>
+    <div class="slide-inner">
+      <p class="eyebrow">使用情境 2</p>
+      <h2 style="font-size:clamp(1.8rem,3.1vw,2.8rem)">跨境問題卡關沒人問？<span class="hl">EZ 助手 24 小時待命</span></h2>
+      <div class="two-col wide-right" style="margin-top:1vh">
+        <div class="stack">
+          <p class="lead">沒有題目限制，貿易上任何卡關的問題都能問。</p>
+          <ul class="check">
+            <li><span class="mk">▸</span><span><b>關稅稅則</b><span>這個品項出口到當地要課多少</span></span></li>
+            <li><span class="mk">▸</span><span><b>市場商情</b><span>目標國最近的情勢與需求變化</span></span></li>
+            <li><span class="mk">▸</span><span><b>跨境貿易疑難雜症</b><span>文件、流程、法規，隨時發問、即時回覆</span></span></li>
+          </ul>
+          <p class="note">→ <b>www.aieztrade.com/ez-assistant</b>　現在就能打開來問。</p>
+        </div>
+        <div>
+          <div class="shot"><img src="assets/ez-assistant.png" alt="EZ 助手對話實例：詢問近三年台灣食品機械出口前五大國家"></div>
+          <p class="cap">EZ 助手實際對話　·　問「近三年台灣出口食品機械的前五大國家？」</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 加值服務・會員商情 ============ -->
+<section class="slide" data-note="做外銷不是找到買主就結束，後面還有金流、物流、認證一大串，很多人是東拼西湊、一家一家找。這一頁講兩件事。
+第一，外銷資源一站整合：平台上目前已經串接 207 家服務廠商、涵蓋 10 種主要需求、12 個服務類別，你可以照需求篩選。電商、物流之外，我們也跟 Google 深度合作，引進他們的跨境服務生態系——帳戶建置、素材、媒體規劃到成效評估四大區塊都有；電商這邊整合了 Shopify、還有歐斯瑞（Astral Web）等夥伴。
+第二，這是最近才上的——會員專屬商情。我們獨家整合了商業週刊、天下雜誌的會員專屬文章與影音，你登入 AiEZ TRADE 就看得到，不用另外訂閱。市場情報比別人快一步。
+要提醒的是，平台推薦的服務資訊主要由 AI 彙整生成，實際合作前還是請各位自行核實資質。">
+  <div class="sheet">
+    <header class="sheet-head">
+      <span><b>AiEZ TRADE</b>　外銷加值服務・會員商情</span>
       <span>06 / 16</span>
     </header>
     <div class="slide-inner">
-      <p class="eyebrow">一站式生態系</p>
-      <h2 style="font-size:clamp(1.8rem,3.1vw,2.7rem)">找到買主只是開始，後面還有<span class="hl">金流、物流、認證</span></h2>
+      <p class="eyebrow">使用情境 3</p>
+      <h2 style="font-size:clamp(1.8rem,3.1vw,2.7rem)">資源東拼西湊？<span class="hl">外銷整合＋會員商情</span>，一站到位</h2>
       <div class="grid g2" style="gap:2.2rem">
         <div>
-          <div class="shot h-sm"><img src="assets/service-market.png" alt="外銷服務廠商媒合"></div>
-          <p class="cap"><b>207</b> 家服務廠商　｜　<b>10</b> 主要需求　｜　<b>12</b> 服務類別</p>
+          <div class="shot h-sm pair"><img src="assets/service-recommend.png" alt="AiEZ TRADE 外銷加值服務推薦：207 家服務廠商、10 主要需求、12 服務類別"></div>
+          <p class="cap"><b style="color:var(--text-primary)">① 外銷資源一站整合</b>　<b>207</b> 家服務廠商｜<b>10</b> 主要需求｜<b>12</b> 服務類別<br>
+             電商・物流・Google 官方認證與 Shopify、歐斯瑞（Astral Web）等生態系</p>
         </div>
         <div>
-          <div class="shot h-sm"><img src="assets/google-blocks.png" alt="Google 跨境服務 4 大區塊"></div>
-          <p class="cap">深度整合 Google 官方認證與 Shopify 等生態系</p>
+          <div class="shot h-sm pair"><img src="assets/member-media.png" alt="會員專屬商情：商業週刊、天下雜誌專屬文章與影音"></div>
+          <p class="cap"><b style="color:var(--text-primary)">② 會員專屬商情</b>　商業週刊、天下雜誌會員專屬文章與影音<br>
+             登入 AiEZ TRADE 平台即可一站掌握最新商情</p>
         </div>
       </div>
       <p class="note" style="margin-top:.6vh">※ 平台推薦之服務資訊主要由 AI 彙整生成，企業合作前請自行核實資質。</p>
@@ -887,7 +910,7 @@ body.nav-back .slide.enter .trobo{
 </section>
 
 <!-- ============ 12 場景 01 ============ -->
-<section class="slide" data-note="接下來用三個實際的應用場景，跟各位說明這套看板到底怎麼用。第一個是市場掃描，找出藍海。我們服務過一家化學品廠商，想外銷東南亞。透過看板，他一眼就看到目標國的進口需求穩定成長，而且本地競爭者缺席，是一片藍海。他再參考數據制定出有競爭力的報價，最後成功做到高毛利外銷。螢幕上這個是自行車產業的實際看板，上面直接告訴你出口金額、最大出口市場、最大出口產品，還有近五年的走勢。">
+<section class="slide" data-note="接下來用三個實際的應用場景，跟各位說明這套看板到底怎麼用。第一個是市場掃描，找出藍海。我們服務過一家化學品廠商，想外銷東南亞。透過看板，他一眼就看到目標國的進口需求穩定成長，而且本地競爭者缺席，是一片藍海。他再參考數據制定出有競爭力的報價，最後成功做到高毛利外銷。螢幕上這張是自行車產業的實際看板——左邊是產品出口到各主要市場的金額占比，右邊是近五年的金額趨勢，下面還有各國的金額與增減率明細。哪個市場在長、哪個在縮，一眼就看得出來。">
   <div class="sheet">
     <header class="sheet-head">
       <span><b>數據看板</b>　應用場景 01</span>
@@ -909,8 +932,8 @@ body.nav-back .slide.enter .trobo{
           <p class="lead" style="color:var(--accent);font-weight:700;font-family:var(--font-title);font-size:clamp(1.15rem,1.7vw,1.5rem)">→ 實現高毛利外銷</p>
         </div>
         <div>
-          <div class="shot"><img src="assets/dashboard-overview.png" alt="產業進出口儀表板：年度累積情形"></div>
-          <p class="cap">看板實際畫面（以自行車產業為例）</p>
+          <div class="shot"><img src="assets/dashboard-value.jpg" alt="出口金額統計：主要市場占比與五年趨勢"></div>
+          <p class="cap">出口金額統計　·　主要市場占比與五年趨勢（以自行車產業為例）</p>
         </div>
       </div>
     </div>
@@ -940,8 +963,46 @@ body.nav-back .slide.enter .trobo{
           <p class="note">看板可切換年度／月度：年度看大趨勢，月度看季節性波動。</p>
         </div>
         <div>
-          <div class="shot"><img src="assets/dashboard-value.jpg" alt="出口金額統計：主要市場占比與趨勢"></div>
-          <p class="cap">出口金額統計　·　主要市場占比與五年趨勢</p>
+          <div class="shot" style="padding:1.2rem 1.3rem 1rem">
+            <svg class="trend" viewBox="0 0 640 330" role="img"
+                 aria-label="目標市場進出口量趨勢：馬來西亞自 2020 年 45 逐年上升至 2025 年 152，日本自 120 平緩下滑至 110">
+              <g class="grid">
+                <line x1="70" y1="280"   x2="600" y2="280"></line>
+                <line x1="70" y1="206.5" x2="600" y2="206.5"></line>
+                <line x1="70" y1="133"   x2="600" y2="133"></line>
+                <line x1="70" y1="59.4"  x2="600" y2="59.4"></line>
+              </g>
+              <g class="ylab">
+                <text x="58" y="285">0</text>
+                <text x="58" y="211">50</text>
+                <text x="58" y="138">100</text>
+                <text x="58" y="64">150</text>
+              </g>
+              <g class="xlab">
+                <text x="70"  y="303">2020</text>
+                <text x="168" y="303">2021</text>
+                <text x="266" y="303">2022</text>
+                <text x="364" y="303">2023</text>
+                <text x="462" y="303">2024</text>
+                <text x="560" y="303">2025</text>
+              </g>
+              <polyline class="ln flat" points="70,103.5 168,96.2 266,100.6 364,106.5 462,110.9 560,118.2"></polyline>
+              <polyline class="ln rise" points="70,213.8 168,203.5 266,180 364,149.1 462,106.5 560,56.5"></polyline>
+              <g class="dot flat">
+                <circle cx="70" cy="103.5" r="4"></circle><circle cx="168" cy="96.2" r="4"></circle>
+                <circle cx="266" cy="100.6" r="4"></circle><circle cx="364" cy="106.5" r="4"></circle>
+                <circle cx="462" cy="110.9" r="4"></circle><circle cx="560" cy="118.2" r="4"></circle>
+              </g>
+              <g class="dot rise">
+                <circle cx="70" cy="213.8" r="4"></circle><circle cx="168" cy="203.5" r="4"></circle>
+                <circle cx="266" cy="180" r="4"></circle><circle cx="364" cy="149.1" r="4"></circle>
+                <circle cx="462" cy="106.5" r="4"></circle><circle cx="560" cy="56.5" r="4"></circle>
+              </g>
+              <text class="tag rise" x="560" y="38">馬來西亞　新市場上升</text>
+              <text class="tag flat" x="560" y="140">日本（既有）　走平</text>
+            </svg>
+          </div>
+          <p class="cap">目標市場進出口量趨勢　·　示意圖，非真實資料</p>
         </div>
       </div>
     </div>
@@ -1025,7 +1086,7 @@ body.nav-back .slide.enter .trobo{
 
 <!-- ============ 16 立即報名 ============ -->
 <section class="slide" data-note="〔本頁有兩拍：講完報名資訊後按一次方向鍵，「額滿即止」的印章才蓋下來。這是最後一頁，蓋完就結束。〕
-最後提醒各位，這個補助方案是有名額限制的，年度限量 300 家，額滿即止。現在請各位拿出手機掃描螢幕上的 QR Code，或是直接記下這個網址 events.taiwantrade.com 斜線 115Dashboard。
+最後提醒各位，這個補助方案是有名額限制的，年度限量 300 家，額滿即止。現在請各位拿出手機掃描螢幕上的 QR Code，掃了會直接進到報名表單，當場就可以填完。如果想先看看活動說明再決定，也可以記下這個網址 events.taiwantrade.com 斜線 115Dashboard，那是活動頁面。
 如果還不確定這套看板適不適合貴公司，也可以先預約線上 Demo，我們實際帶你走一遍再決定。Email 跟電話都在螢幕上，也可以直接找邀請各位來的貿協同仁。
 等一下 15:50 開始有交流時間，歡迎帶著你關注產品的 HS Code 到現場洽詢。謝謝大家。">
   <div class="sheet">
@@ -1042,7 +1103,7 @@ body.nav-back .slide.enter .trobo{
           <div class="field">
             <span class="tag">諮詢窗口</span>
             <p style="line-height:2">
-              報名網址　<span class="hl">events.taiwantrade.com/115Dashboard</span><br>
+              活動頁面　<span class="hl">events.taiwantrade.com/115Dashboard</span><br>
               Email　　<span class="hl">tradedashboard@taitra.org.tw</span><br>
               電話　　　<span class="hl">02-2725-5200　#1713　#77006</span>
             </p>
@@ -1050,8 +1111,8 @@ body.nav-back .slide.enter .trobo{
         </div>
         <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;position:relative;width:max-content;margin:0 auto">
           <div class="seal seal-pin seal-pin--qr">額滿<br>即止</div>
-          <div class="qr"><img src="assets/qr-signup.png" alt="企業進出口數據看板報名 QR Code"></div>
-          <p class="cap" style="text-align:center">掃描立即報名</p>
+          <div class="qr"><img src="assets/qr-form.png" alt="企業進出口數據看板報名表單 QR Code"></div>
+          <p class="cap" style="text-align:center">掃描直接填寫報名表單</p>
         </div>
       </div>
     </div>
@@ -1081,7 +1142,7 @@ body.nav-back .slide.enter .trobo{
 
   /* ---- 分段進度條：三個段落，寬度依頁數分配 ---- */
   var SECTIONS = [
-    {name:'EZ 助手',   from:1,  to:7 },
+    {name:'AiEZ TRADE', from:1,  to:7 },
     {name:'數據看板',  from:8,  to:15},
     {name:'報名',      from:16, to:16}
   ];
