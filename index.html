@@ -221,6 +221,8 @@ svg.trend .tag.flat{fill:#7C889B}
 /* 並排的兩張截圖原始比例差很多，用固定框高把圖置中，兩側圖說才會對齊 */
 .shot.pair{height:32vh;display:flex;align-items:center;justify-content:center}
 .shot.pair img{height:100%;max-height:none;object-fit:contain}
+/* 撐滿相框、切齊頂端，多出來的下緣裁掉 */
+.shot.pair.fill img{width:100%;object-fit:cover;object-position:top center}
 .shot.h-lg img{max-height:56vh}
 /* demo 影片沿用截圖的相框與高度上限。
    aspect-ratio 必須指定：否則 metadata 載入前 <video> 預設只有 150px 高，
@@ -726,7 +728,7 @@ body.nav-back .slide.enter .trobo{
       <h2 style="font-size:clamp(1.8rem,3.1vw,2.7rem)">資源東拼西湊？<span class="hl">外銷整合＋會員商情</span>，一站到位</h2>
       <div class="grid g2" style="gap:2.2rem">
         <div>
-          <div class="shot h-sm pair"><img src="assets/service-recommend.png" alt="AiEZ TRADE 外銷加值服務推薦：207 家服務廠商、10 主要需求、12 服務類別"></div>
+          <div class="shot h-sm pair fill"><img src="assets/service-recommend.png" alt="AiEZ TRADE 外銷加值服務推薦：207 家服務廠商、10 主要需求、12 服務類別"></div>
           <p class="cap"><b style="color:var(--text-primary)">① 外銷資源一站整合</b>　<b>207</b> 家服務廠商｜<b>10</b> 主要需求｜<b>12</b> 服務類別<br>
              電商・物流・Google 官方認證與 Shopify、歐斯瑞（Astral Web）等生態系</p>
         </div>
