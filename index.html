@@ -403,9 +403,10 @@ ul.check span{font-size:clamp(.86rem,1.08vw,.98rem);color:var(--text-secondary)}
 .stamp-anchor{position:relative}
 /* 壓在表格右上角，跨過「本方案」欄的上緣，像實際蓋在單據上 */
 .seal.seal-pin--table{top:-3.6rem;right:-.6rem}
-/* 第 16 頁：貼在 QR 右上角外側。右偏移必須讓邊界盒與 QR 完全不重疊，
-   壓到碼區會掃不出來（印章有 rotate，邊界盒比視覺範圍大） */
-.seal.seal-pin--qr{top:-1.6rem;right:-6.6rem}
+/* 第 16 頁：蓋在「年度限量 300 家」標題右側。
+   錨定盒用 max-content 收成標題文字的寬度，印章才會貼著字走而不是飛到欄位邊緣。 */
+.stamp-anchor--title{width:max-content}
+.seal.seal-pin--title{top:1.1rem;right:-7rem}
 .logo{max-width:min(300px,72%);height:auto;display:block}
 
 /* 談判對白 */
@@ -1100,7 +1101,10 @@ body.nav-back .slide.enter .trobo{
       <div class="two-col" style="align-items:center">
         <div class="stack" style="gap:1.5rem">
           <p class="eyebrow">立即報名</p>
-          <h1 style="font-size:clamp(2.4rem,4.4vw,4rem)">年度限量<br>300 家</h1>
+          <div class="stamp-anchor stamp-anchor--title">
+            <h1 style="font-size:clamp(2.4rem,4.4vw,4rem)">年度限量<br>300 家</h1>
+            <div class="seal seal-pin seal-pin--title">額滿<br>即止</div>
+          </div>
           <p class="lead">額滿即止，歡迎報名或預約線上 Demo。</p>
           <div class="field">
             <span class="tag">諮詢窗口</span>
@@ -1112,7 +1116,6 @@ body.nav-back .slide.enter .trobo{
           </div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;position:relative;width:max-content;margin:0 auto">
-          <div class="seal seal-pin seal-pin--qr">額滿<br>即止</div>
           <div class="qr qr-lg"><img src="assets/qr-form.png" alt="企業進出口數據看板報名表單 QR Code"></div>
           <p class="cap" style="text-align:center">掃描直接填寫報名表單</p>
         </div>
