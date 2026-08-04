@@ -218,6 +218,34 @@ svg.trend .dot.flat circle{fill:#9AA6B8}
 svg.trend .tag{text-anchor:end;font-weight:700;font-size:14px}
 svg.trend .tag.rise{fill:var(--accent)}
 svg.trend .tag.flat{fill:#7C889B}
+/* 折線「從左往右長出來」。dasharray 取各線的實際路徑長（量到 flat≈491、rise≈519，
+   各進位一點，確保靜止時 dasharray > 路徑長＝整條實線，不會出現虛線缺口）。
+   兩條線同延遲同時長，長度雖差 28px 但同時抵達右緣，成長速度的差別才看得出來。
+   fill-mode 一律 backwards：延遲期間停在「還沒畫」的起點，畫完就回到元素本來的樣子
+   （dashoffset:0＝完整實線）。若用 both，動畫被節流或中斷時線會永遠消失。 */
+svg.trend .ln{stroke-dashoffset:0}
+svg.trend .ln.flat{stroke-dasharray:495}
+svg.trend .ln.rise{stroke-dasharray:525}
+@keyframes drawFlat{from{stroke-dashoffset:495}}
+@keyframes drawRise{from{stroke-dashoffset:525}}
+.slide.enter svg.trend .ln{animation-duration:1.15s;animation-timing-function:cubic-bezier(.4,0,.25,1);animation-fill-mode:backwards;animation-delay:.72s}
+.slide.enter svg.trend .ln.flat{animation-name:drawFlat}
+.slide.enter svg.trend .ln.rise{animation-name:drawRise}
+/* 圓點跟著線頭亮起來：六個點平均分布在 x 軸上，延遲＝線畫到該點的時刻 */
+@keyframes dotIn{from{opacity:0;transform:scale(.2)}}
+.slide.enter svg.trend .dot circle{
+  animation:dotIn .3s ease-out backwards;
+  transform-box:fill-box;transform-origin:center;
+}
+.slide.enter svg.trend .dot circle:nth-child(1){animation-delay:.72s}
+.slide.enter svg.trend .dot circle:nth-child(2){animation-delay:.95s}
+.slide.enter svg.trend .dot circle:nth-child(3){animation-delay:1.18s}
+.slide.enter svg.trend .dot circle:nth-child(4){animation-delay:1.41s}
+.slide.enter svg.trend .dot circle:nth-child(5){animation-delay:1.64s}
+.slide.enter svg.trend .dot circle:nth-child(6){animation-delay:1.87s}
+/* 兩條線的標籤在右緣，等線畫到了才浮出來 */
+@keyframes tagIn{from{opacity:0}}
+.slide.enter svg.trend .tag{animation:tagIn .4s ease-out backwards;animation-delay:1.9s}
 /* 並排的兩張截圖原始比例差很多，用固定框高把圖置中，兩側圖說才會對齊 */
 .shot.pair{height:32vh;display:flex;align-items:center;justify-content:center}
 .shot.pair img{height:100%;max-height:none;object-fit:contain}
@@ -322,6 +350,7 @@ ul.check span{font-size:clamp(.86rem,1.08vw,.98rem);color:var(--text-secondary)}
   list-style:none;border:1px solid var(--border);padding:.5rem .85rem;
   font-size:clamp(.82rem,1.04vw,.94rem);background:var(--accent-dim);color:var(--accent);font-weight:600;
 }
+.chips li.key-cond{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
 
 /* 對話 */
 .ask{
@@ -372,7 +401,7 @@ ul.check span{font-size:clamp(.86rem,1.08vw,.98rem);color:var(--text-secondary)}
 .slide.dark .terms span{font-size:clamp(.76rem,.96vw,.88rem);color:rgba(255,255,255,.75)}
 
 /* 封面 */
-.cover-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:2.6rem;align-items:center}
+.cover-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:2.6rem;align-items:center}
 .cover-meta{border-top:1px solid var(--border);padding-top:1.1rem;display:flex;flex-wrap:wrap;gap:.5rem 2rem}
 .cover-meta div{font-size:clamp(.84rem,1.06vw,.96rem);color:var(--text-secondary)}
 .cover-meta b{color:var(--text-primary);font-weight:700}
@@ -409,7 +438,19 @@ ul.check span{font-size:clamp(.86rem,1.08vw,.98rem);color:var(--text-secondary)}
    錨定盒用 max-content 收成標題文字的寬度，印章才會貼著字走而不是飛到欄位邊緣。 */
 .stamp-anchor--title{width:max-content}
 .seal.seal-pin--title{top:1.1rem;right:-7rem}
-.logo{max-width:min(300px,72%);height:auto;display:block}
+.logo{max-width:min(500px,100%);height:auto;display:block}
+.logo-url{
+  font-family:var(--font-title);font-weight:700;
+  font-size:clamp(.98rem,1.3vw,1.2rem);letter-spacing:.04em;
+  color:var(--accent);text-decoration:none;
+  border-bottom:1.5px solid var(--accent);padding-bottom:.12rem;
+}
+/* 內文中的可點網址：投影用不會有人點，但轉 PDF／線上分享時要能連得出去 */
+.inline-url{
+  color:var(--accent);font-weight:700;text-decoration:none;
+  border-bottom:1.5px solid var(--accent);
+}
+.inline-url:hover{background:var(--accent-dim)}
 
 /* 談判對白 */
 .dialog{display:flex;flex-direction:column;gap:.9rem}
@@ -527,6 +568,9 @@ body.nav-back .slide.enter .trobo{
 @media (prefers-reduced-motion:reduce){
   #bar{transition:none}
   .slide.enter [data-r],
+  .slide.enter svg.trend .ln,
+  .slide.enter svg.trend .dot circle,
+  .slide.enter svg.trend .tag,
   .seal.stamped{animation:none}
   .seal.stamped::after{display:none}
 }
@@ -567,8 +611,9 @@ body.nav-back .slide.enter .trobo{
             <div>執行　<b>中華民國對外貿易發展協會．數位科技中心</b></div>
           </div>
         </div>
-        <div class="stack" style="align-items:flex-start">
+        <div class="stack" style="align-items:center;gap:1rem">
           <img class="logo" src="assets/logo-aieztrade.png" alt="AiEZ TRADE">
+          <a class="logo-url" href="https://www.aieztrade.com/" target="_blank" rel="noopener">aieztrade.com</a>
         </div>
       </div>
     </div>
@@ -576,7 +621,7 @@ body.nav-back .slide.enter .trobo{
 </section>
 
 <!-- ============ 02 引擎 ============ -->
-<section class="slide" data-note="這套服務的核心其實就兩件事：一是把資料整理好，二是幫你挑重點。前半段，我們彙集聯合國 UN 跟財政部（MOF）這些權威來源的貿易數據，把格式各異、零散龐雜的資料做結構化整理。後半段交給 AI，它會理解每一家企業不同的需求，主動幫你篩選、推播最合適的那一則情報。簡單說——資料我們準備好，重點 AI 幫你挑。">
+<section class="slide" data-note="這套服務的核心其實就兩件事：一是把資料整理好，二是幫你挑重點。前半段，我們彙集聯合國（UN）跟財政部（MOF）這些權威來源的貿易數據，把格式各異、零散龐雜的資料做結構化整理。後半段交給 AI，它會理解每一家企業不同的需求，主動幫你篩選、推播最合適的那一則情報。簡單說——資料我們準備好，重點 AI 幫你挑。">
   <div class="sheet">
     <header class="sheet-head">
       <span><b>AiEZ TRADE</b>　平台架構</span>
@@ -590,7 +635,7 @@ body.nav-back .slide.enter .trobo{
           <div class="field">
             <span class="tag">上游　數據彙集與處理</span>
             <h3>把權威資料整理成可用的情報</h3>
-            <p>彙集 UN、財政部（MOF）等多方數據來源，
+            <p>彙集聯合國（UN）、財政部（MOF）等多方數據來源，
                結構化整理不同來源的數據。</p>
           </div>
           <div class="field">
@@ -648,7 +693,7 @@ body.nav-back .slide.enter .trobo{
 <!-- ============ 04 ★ 主秀：平台三大核心功能 ============ -->
 <section class="slide" data-note="設定完成之後，平台上有三個功能會直接為你運作——注意，這三個是平台原本就有的功能，不是問 EZ 助手問出來的，EZ 助手是另外一個服務，等一下再講。
 你要做的只有一件事：把你的產品講清楚。以我做手工具為例，HS 8205、主要外銷美國。剩下三件事平台自動產出。
-第一是「數據情報」，依你的出口實績直接生成專屬報表，資料來源標得清清楚楚，是財政部 MOF 跟 UN Comtrade。
+第一是「數據情報」，依你的出口實績直接生成專屬報表，資料來源標得清清楚楚，是財政部 MOF 跟聯合國 UN Comtrade。
 第二是「你的 Ai 產業幫手」，它會精準對齊 HS Code 跟行業慣用名稱——這點很重要，同一個產品業界怎麼叫、報關怎麼歸類常常對不起來，它幫你接起來，再指引關鍵的展會活動跟潛在買家。
 第三是「買主雷達」——你把公司的產品、強項、銷售市場輸入進去，AI 就會自動爬梳、篩選出最適合你的潛在合作對象。
 一句話：輸入產品，報表、展會、買主，一次幫你端出來。（現場可補一句：這三張都是平台實際畫面，不是示意圖。）">
@@ -663,7 +708,7 @@ body.nav-back .slide.enter .trobo{
       <div class="outs">
         <div class="out">
           <div class="oh"><span class="n">01</span><b>數據情報</b></div>
-          <p>依你的出口實績生成專屬報表，產品在全球市場的定位與出口重點市場一次列出。<br>資料來源｜財政部 MOF・UN Comtrade</p>
+          <p>依你的出口實績生成專屬報表，產品在全球市場的定位與出口重點市場一次列出。<br>資料來源｜財政部 MOF・聯合國 UN Comtrade</p>
           <div class="shot"><img src="assets/data-line.png" alt="數據情報：出口重點市場趨勢"></div>
         </div>
         <div class="out">
@@ -673,7 +718,8 @@ body.nav-back .slide.enter .trobo{
         </div>
         <div class="out">
           <div class="oh"><span class="n">03</span><b>買主雷達</b></div>
-          <p>輸入產品、強項、銷售市場，AI 自動爬梳篩選出適合的合作對象。</p>
+          <p>輸入產品、強項、銷售市場，AI 自動爬梳篩選出適合的合作對象。<br>
+             立即試用｜<a class="inline-url" href="https://www.aieztrade.com/buyerfinder/" target="_blank" rel="noopener">www.aieztrade.com/buyerfinder</a></p>
           <div class="shot"><img src="assets/buyer-finder.png" alt="AiEZ TRADE Buyer Finder 買主雷達"></div>
         </div>
       </div>
@@ -702,7 +748,7 @@ body.nav-back .slide.enter .trobo{
             <li><span class="mk">▸</span><span><b>市場商情</b><span>目標國最近的情勢與需求變化</span></span></li>
             <li><span class="mk">▸</span><span><b>跨境貿易疑難雜症</b><span>文件、流程、法規，隨時發問、即時回覆</span></span></li>
           </ul>
-          <p class="note">→ <b>www.aieztrade.com/ez-assistant</b>　現在就能打開來問。</p>
+          <p class="note">→ <a class="inline-url" href="https://www.aieztrade.com/ez-assistant/" target="_blank" rel="noopener">www.aieztrade.com/ez-assistant</a>　現在就能打開來問。</p>
         </div>
         <div>
           <div class="shot"><img src="assets/ez-assistant.png" alt="EZ 助手對話實例：詢問近三年台灣食品機械出口前五大國家"></div>
@@ -845,10 +891,10 @@ body.nav-back .slide.enter .trobo{
         </div>
         <ul class="check">
           <li><span class="mk">✓</span><span><b>企業專屬客製化看板</b><span>依你的 HS Code 與產品建置，看到的是自己的市場</span></span></li>
+          <li><span class="mk">✓</span><span><b>視覺化互動圖表</b><span>不需要數據背景，會看圖就會用</span></span></li>
           <li><span class="mk">✓</span><span><b>全年無限次線上查閱</b><span>一個網址，想查就查、不限次數</span></span></li>
           <li><span class="mk">✓</span><span><b>每月資料自動更新</b><span>市場在變，數據跟著變</span></span></li>
           <li><span class="mk">✓</span><span><b>可查 5 年歷史數據</b><span>年度看大趨勢，月度看季節性波動</span></span></li>
-          <li><span class="mk">✓</span><span><b>視覺化互動圖表</b><span>不需要數據背景，會看圖就會用</span></span></li>
         </ul>
       </div>
     </div>
@@ -1055,7 +1101,7 @@ body.nav-back .slide.enter .trobo{
 </section>
 
 <!-- ============ 15 流程與資格 ============ -->
-<section class="slide" data-note="怎麼申請？六個步驟。先在活動頁面線上填單報名，我們一到三個工作天完成資格審核，審核過了會用 Email 通知你繳費，繳完 999 元之後我們會做客製化需求調查，確認你要看的 HS Code，最後 20 個工作天內把看板交付給你。資格有七項，重點是前三項：要有進出口廠商登記、一年內沒有受過停止輸出入處分、三年內有進出口實績。另外還要符合中小企業標準，也就是資本額一億以下或員工 200 人以下。如果不確定自己符不符合，等一下交流時間或會後找我，我可以直接幫你查。">
+<section class="slide" data-note="怎麼申請？六個步驟。先在活動頁面線上填單報名，我們一到三個工作天完成資格審核，審核過了會用 Email 通知你繳費，繳完 999 元之後我們會做客製化需求調查，確認你要看的 HS Code，最後 20 個工作天內把看板交付給你。資格有七項，畫藍底的三項是關鍵：第一，要有進出口廠商登記；第三，三年內要有進出口實績；第七，要符合中小企業認定標準，也就是資本額一億元以下，或者資本額超過一億元但員工人數在 200 人以下。如果不確定自己符不符合，等一下交流時間或會後找我，我可以直接幫你查。">
   <div class="sheet">
     <header class="sheet-head">
       <span><b>數據看板</b>　申請方式</span>
@@ -1075,15 +1121,15 @@ body.nav-back .slide.enter .trobo{
       <div class="field" style="margin-top:2.2vh">
         <span class="tag">申請資格　七大條件</span>
         <ul class="chips" style="margin-top:.3rem">
-          <li>① 進出口廠商登記</li>
+          <li class="key-cond">① 進出口廠商登記</li>
           <li>② 1 年內未受處分</li>
-          <li>③ 3 年內進出口實績</li>
+          <li class="key-cond">③ 3 年內進出口實績</li>
           <li>④ 受輔導產品臺灣產製</li>
           <li>⑤ 資本組成不含陸資</li>
           <li>⑥ 符合智財權規定</li>
-          <li>⑦ 符合中小企業標準</li>
+          <li class="key-cond">⑦ 符合中小企業標準</li>
         </ul>
-        <p class="note" style="margin-top:.8rem">※ 中小企業認定：資本額 1 億元以下　或　員工 200 人以下。</p>
+        <p class="note" style="margin-top:.8rem">※ 中小企業認定標準：資本額 1 億元以下；或資本額 1 億元以上、但員工人數 200 人以下者。</p>
       </div>
     </div>
   </div>
@@ -1129,7 +1175,7 @@ body.nav-back .slide.enter .trobo{
 </div><!-- /#deck -->
 
 <div id="pg">01 / 16</div>
-<div id="hint">← → 換頁　·　N 講者備註　·　F 全螢幕</div>
+<div id="hint">← → 換頁　·　F 全螢幕</div>
 <div id="notes"><span class="nh">講者備註</span><span id="ntext"></span></div>
 
 <script>
@@ -1176,7 +1222,7 @@ body.nav-back .slide.enter .trobo{
   /* ---- 逐項揭示：挑出這一頁的揭示單位，巢狀的只取最外層 ---- */
   var REVEAL_SEL = '.eyebrow, h1, h2, .lead, .note, .field, .numcard, .out, .ask,' +
                    '.step, .terms > div, table.decl, ul.check > li, .chips, .shot,' +
-                   '.qr, .cap, .stat, .cover-meta, .dialog .line, .logo, .grid > div, .trobo';
+                   '.qr, .cap, .stat, .cover-meta, .dialog .line, .logo, .logo-url, .grid > div, .trobo';
 
   function markReveal(slide){
     var found = Array.prototype.slice.call(slide.querySelectorAll(REVEAL_SEL));
